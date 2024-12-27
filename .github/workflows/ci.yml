@@ -25,7 +25,7 @@ jobs:
             # https://github.com/MadLittleMods/node-usb-detection/issues/164
             version: 2019
         arch: [x64]
-        node: ['12', '14', '16']
+        node: ['12', '14', '16', '22']
         include:
           - os:
               name: Windows
@@ -42,6 +42,11 @@ jobs:
               version: 2019
             arch: x86
             node: '16'
+          - os: 
+              name: Windows
+              version: 2019
+            arch: x86
+            node: '22'
 
     steps:
       - name: 'Checkout repository'
@@ -105,11 +110,11 @@ jobs:
       # Prebuilds should only be generated once per OS + arch
       # Running from Node LTS will generate prebuilds for all ABIs
       - name: 'Prebuild binaries for all ABIs'
-        if: ${{ matrix.node == '16' }}
+        if: ${{ matrix.node == '22' }}
         run: npm run prebuild
 
       - name: 'Upload prebuilt binaries'
-        if: ${{ matrix.node == '16' }}
+        if: ${{ matrix.node == '22' }}
         uses: actions/upload-artifact@v2
         with:
           name: prebuilds-${{ matrix.os.name }}-${{ matrix.arch }}
@@ -147,7 +152,7 @@ jobs:
       - name: 'Install Node.js with registry configured for publish'
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: '22'
           registry-url: 'https://registry.npmjs.org'
 
       - name: 'Install dependencies without building'
