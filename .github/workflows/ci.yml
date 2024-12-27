@@ -50,10 +50,10 @@ jobs:
 
     steps:
       - name: 'Checkout repository'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: 'Install Node.js v${{ matrix.node }} ${{ matrix.arch }}'
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
           architecture: ${{ matrix.arch }}
@@ -68,8 +68,8 @@ jobs:
       # on all other platforms except for Windows and npm@6, see
       # - https://github.com/nodejs/node-gyp/blob/245cd5bbe4441d4f05e88f2fa20a86425419b6af/docs/Updating-npm-bundled-node-gyp.md
       # - https://github.com/nodejs/node-gyp/blob/245cd5bbe4441d4f05e88f2fa20a86425419b6af/docs/Force-npm-to-use-global-node-gyp.md
-      - name: 'Install npm@^8 to get a more up to date bundled node-gyp'
-        run: npm install --global npm@8.3.1
+      - name: 'Install npm@^10 to get a more up to date bundled node-gyp'
+        run: npm install --global npm@10.9.0
 
       # Fix `Error: Could not find any Visual Studio installation to use`
       # See https://github.com/nodejs/node-gyp/tree/245cd5bbe4441d4f05e88f2fa20a86425419b6af/docs#issues-finding-the-installed-visual-studio
@@ -115,7 +115,7 @@ jobs:
 
       - name: 'Upload prebuilt binaries'
         if: ${{ matrix.node == '22' }}
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: prebuilds-${{ matrix.os.name }}-${{ matrix.arch }}
           path: prebuilds
@@ -126,12 +126,12 @@ jobs:
 
     steps:
       - name: 'Checkout repository'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: 'Install Node.js'
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version: '22'
 
       - name: 'Install dependencies without building'
         run: npm ci --ignore-scripts
@@ -147,10 +147,10 @@ jobs:
 
     steps:
       - name: 'Checkout repository'
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: 'Install Node.js with registry configured for publish'
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v4
         with:
           node-version: '22'
           registry-url: 'https://registry.npmjs.org'
@@ -159,7 +159,7 @@ jobs:
         run: npm ci --ignore-scripts
 
       - name: 'Download prebuilt binaries'
-        uses: actions/download-artifact@v2
+        uses: actions/download-artifact@v4
         with:
           path: prebuilds
 
